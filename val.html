@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Be My Valentine Ichhya 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+  font-family:'Poppins',sans-serif;
+  height:100vh;
+  overflow:hidden;
+  background: radial-gradient(circle at top,#ffd6e8,#f7c1d9,#e8a5c3,#d48aa8);
+  position: relative;
+}
+
+/* MEMORY COLUMNS */
+.memories {
+  position: fixed;
+  top: 0;
+  width: 18%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+  z-index: 1;
+}
+.left { left: 0; }
+.right { right: 0; }
+
+.memories img {
+  width: 130%;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+  animation: scroll 6s linear infinite;
+  }
+
+@keyframes scroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* CARD */
+.wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.card {
+  backdrop-filter: blur(18px);
+  background: rgba(255,255,255,.25);
+  border-radius: 28px;
+  padding: 50px 55px;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0,0,0,.15), inset 0 0 25px rgba(255,255,255,.35);
+  max-width: 480px;
+}
+
+h1 { font-family:'Playfair Display',serif; font-size:34px; color:#5a1f36; margin-bottom:12px; }
+.sub { font-size:14px; opacity:.8; margin-bottom:30px; }
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+button {
+  border:none;
+  border-radius: 999px;
+  cursor:pointer;
+  transition: .3s ease;
+  position: fixed;
+}
+.yes {
+  padding:14px 34px;
+  font-size:16px;
+  color:white;
+  background: linear-gradient(135deg,#ff7aa8,#ff5d8f,#ff8fab);
+}
+.no {
+  padding:12px 26px;
+  font-size:14px;
+  background:#f0dbe4;
+  color:#5a1f36;
+}
+
+/* CELEBRATION */
+.celebrate {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(circle, rgba(255,200,220,.9), rgba(255,150,190,.95));
+  animation: zoomIn .8s ease forwards;
+}
+@keyframes zoomIn {
+  from { transform: scale(1.08); opacity:0; }
+  to { transform: scale(1); opacity:1; }
+}
+
+@keyframes slideShow {
+  0% { transform: translateY(0%); }
+
+  12.5% { transform: translateY(-100%); }
+  25%   { transform: translateY(-200%); }
+  37.5% { transform: translateY(-300%); }
+  50%   { transform: translateY(-400%); }
+  62.5% { transform: translateY(-500%); }
+  75%   { transform: translateY(-600%); }
+  87.5% { transform: translateY(-700%); }
+
+  100%  { transform: translateY(0%); }
+}
+  
+footer { position: absolute; bottom:18px; font-size:12px; opacity:.6; }
+</style>
+</head>
+
+<body>
+
+<!-- LEFT COLUMN -->
+<div class="memories left">
+  <img src="1.jpg">
+  <img src="2.jpg">
+  <img src="3.jpg">
+  <img src="4.jpg">
+  <img src="5.jpg">
+  <img src="6.jpg">
+  <img src="7.jpg">
+  <img src="8.jpg">
+  <img src="1.jpg">
+  <img src="2.jpg">
+  <img src="3.jpg">
+  <img src="4.jpg">
+  <img src="5.jpg">
+  <img src="6.jpg">
+  <img src="7.jpg">
+  <img src="8.jpg">
+</div>
+
+<!-- RIGHT COLUMN -->
+<div class="memories right">
+  <img src="9.jpg">
+  <img src="10.jpg">
+  <img src="11.jpg">
+  <img src="12.jpg">
+  <img src="13.jpg">
+  <img src="14.jpg">
+  <img src="15.jpg">
+  <img src="16.jpg">
+  <img src="9.jpg">
+  <img src="10.jpg">
+  <img src="11.jpg">
+  <img src="12.jpg">
+  <img src="13.jpg">
+  <img src="14.jpg">
+  <img src="15.jpg">
+  <img src="16.jpg">
+</div>
+
+<div class="wrapper">
+  <div class="card" id="card">
+    <h1>Will you be my Valentine Ichhya? 💘</h1>
+    <div class="sub"></div>
+    <div class="buttons">
+      <button class="yes" id="yesBtn">YES 💖</button>
+      <button class="no" id="noBtn">NO</button>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+
+const phrases = [
+"No… are you sure?",
+"No, don't do this",
+"No, Nai nagara na",
+"No, this is getting cuter",
+"No, I'm so in love with you already",
+"No, I can't handle this",
+"No… okay fine.",
+"No… I'm sorry for being rude",
+"No… last time, I promise",
+];
+
+let index = 0;
+let activated = false;
+const FIXED_RADIUS = 180; // Fixed distance from card center
+
+// Position first NO button **just below YES button** without incrementing index
+function positionFirstNo(){
+  const yesRect = yesBtn.getBoundingClientRect();
+  noBtn.style.position = "fixed";
+  noBtn.style.left = yesRect.left + "px";
+  noBtn.style.top = yesRect.bottom + 10 + "px"; // 10px gap
+  noBtn.textContent = "NO"; // First button text
+}
+positionFirstNo();
+
+function moveNearCard(){
+  // Loop back to start instead of removing button
+  if(index >= phrases.length){
+    index = 0;
+  }
+
+  const rect = card.getBoundingClientRect();
+  
+  // Random angle around the card (full circle)
+  const angle = Math.random() * Math.PI * 2;
+  
+  // Calculate position at FIXED radius
+  let x = rect.left + rect.width/2 + Math.cos(angle) * FIXED_RADIUS - noBtn.offsetWidth/2;
+  let y = rect.top + rect.height/2 + Math.sin(angle) * FIXED_RADIUS - noBtn.offsetHeight/2;
+
+  // Keep button within viewport
+  x = Math.max(10, Math.min(x, window.innerWidth - noBtn.offsetWidth - 10));
+  y = Math.max(10, Math.min(y, window.innerHeight - noBtn.offsetHeight - 10));
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  noBtn.textContent = phrases[index++];
+}
+
+// Activate NO button movement after hover/click
+noBtn.addEventListener("mouseenter",()=>{ 
+  if(!activated){ 
+    activated = true; 
+    moveNearCard(); 
+  } 
+});
+noBtn.addEventListener("click", moveNearCard);
+
+yesBtn.onclick = ()=>{
+  document.body.innerHTML = `<div class="celebrate"><h2>
+YAYYYY Goofballlll💕<br>
+I knew it 💖<br><br>
+Happy Rose Day my love 🌹<br>
+May our distance never be a barrier to our love.
+Making every moment count until we meet again. 💖
+I love you so much! 
+
+Yours forever. 
+Arnab
+</h2></div>`;
+};
+</script>
+
+</body>
+</html>
