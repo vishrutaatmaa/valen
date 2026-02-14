@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Val Day 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffd6e7, #ffeef5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 380px;
+  position: relative;
+}
+
+h2 {
+  margin: 20px 0 30px;
+  color: #5a1f36;
+  font-family: 'Playfair Display', serif;
+}
+
+button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 5px;
+}
+
+#yesBtn {
+  background-color: #ff4d88;
+  color: white;
+}
+
+#yesBtn:hover {
+  transform: scale(1.1);
+}
+
+#noBtn {
+  background-color: #ddd;
+  color: #333;
+  position: fixed;
+}
+
+/* Slideshow */
+.slideshow {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.slideshow img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slideshow img.active {
+  opacity: 1;
+}
+
+/* Hearts */
+.heart {
+  position: fixed;
+  font-size: 20px;
+  animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-200px); opacity: 0; }
+}
+
+.celebrate {
+  text-align: center;
+  padding: 30px;
+  color: #5a1f36;
+}
+
+.ghibli-img {
+  width: 320px;
+  margin-top: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h2>Will you be my Valentine my Goofball? 🌹</h2>
+
+  <button id="yesBtn">Yes 💕</button>
+  <button id="noBtn" style="position: fixed; left: 620px; top: 900px;">No </button>
+  <h2>  </h2>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+
+let attempts = 0;
+
+const noTexts = [
+"No… are you sure?",
+"No, don't do this",
+"No, Nai nabhana na 😭",
+"No, this is getting cuter",
+"No, I'm already in love with you",
+"No, I can't handle this",
+"No… why are you chasing this button?",
+"No… you're not giving up??",
+"No… I'm getting emotionally attached",
+"No… I'm gonna love you more and more just press yes",
+"No… I wanna hug you just press YES 💕"
+];
+
+// Proper first alignment under YES
+function positionFirstNo(){
+  const yesRect = yesBtn.getBoundingClientRect();
+  noBtn.style.position = "fixed";
+  noBtn.style.left = yesRect.left + "px";
+  noBtn.style.top = (yesRect.bottom + 10) + "px";
+}
+
+window.onload = positionFirstNo;
+window.onresize = positionFirstNo;
+
+// Move NO randomly
+function moveNoButton() {
+  attempts++;
+
+  const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+  const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.position = "fixed";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  noBtn.textContent = noTexts[Math.min(attempts - 1, noTexts.length - 1)];
+
+  if (attempts >= 5) {
+    noBtn.style.transform = `scale(${Math.max(0.75, 1 - attempts * 0.03)})`;
+  }
+
+  if (attempts === 11) {
+    noBtn.remove();
+
+    const msg = document.createElement("p");
+    msg.innerHTML = `
+      You reached out for No for the 11th time… ✨<br><br>
+      11's a charm right
+      I think the universe has other plans
+    `;
+    msg.style.marginTop = "20px";
+    msg.style.fontSize = "1.2rem";
+    msg.style.fontWeight = "bold";
+    msg.style.color = "#5a1f36";
+    msg.style.textAlign = "center";
+
+    card.appendChild(msg);
+
+    spawnHearts(60);
+
+   
+  }
+}
+
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+// YES click
+yesBtn.addEventListener("mouseenter", () => {
+  spawnHearts(6);
+});
+
+yesBtn.addEventListener("mouseenter", () => {
+  spawnHearts(6);
+});
+
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <div class="celebrate" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+      <div style="text-align: left; max-width: 600px; line-height: 1.0; font-family: 'Playfair Display', serif; font-size: 14px;">
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">I</span> wanna keep you happy forever, my everything</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">C</span>all me, and I'll be there in a heartbeat</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">H</span>old my hand and never let go</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">H</span>and in hand, we'll face the world together</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">Y</span>apper Therapist Goofball Penguin Gangstaa💕🔫</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">A</span>lways gonna be your dummy</p>
+        <br>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">H</span>appy Valentine's Day my love🌹</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">U</span>ndoubtedly, I love you so so much</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">N</span>ow and forever, to us,</p>
+        <p><span style="display:inline-block; width:1.5ch; font-weight:bold; color:#FF69B4;">Y</span>our dummy <3</p>
+      </div>
+      <img src="ghibili.png" class="ghibli-img" style="max-width: 100%; height: auto; margin-top: 15px;">
+    </div>
+  `;
+  spawnHearts(80);
+});
+
+
+
+
+// Hearts
+function spawnHearts(count) {
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = Math.random() * window.innerHeight + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+}
+
+// Slideshow logic (if you add images later)
+let slides = document.querySelectorAll(".slideshow img");
+let slideIndex = 0;
+
+setInterval(() => {
+  if(slides.length){
+    slides[slideIndex].classList.remove("active");
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add("active");
+  }
+}, 3000);
+
+</script>
+
+</body>
+</html>
